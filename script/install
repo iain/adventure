@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
+gem which bundler > /dev/null || gem install bundler
+bundle check || bundle install
+script/test
