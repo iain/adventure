@@ -1,13 +1,14 @@
 class Edge
 
+  attr_reader :options
+
   def initialize(options)
     @options = options
   end
 
   def self.destination(options)
-    edge = options[:edges].find { |edge|
-      edge.matches?(options)
-    } || fail(DestinationUnknown)
+    edge = options[:from].edges.find { |edge| edge.matches?(options) }
+    fail DestinationUnknown unless edge
     edge.to
   end
 
@@ -15,11 +16,26 @@ class Edge
     @options[:to]
   end
 
-  def matches?(options)
-    options[:direction] == @options[:direction] &&
-      options[:via] == @options[:via] &&
-      options[:from] == @options[:from]
+  def direction
+    @options[:direction]
+  end
 
+  def via
+    @options[:via]
+  end
+
+  def matches?(options)
+    options[:direction] == direction && options[:via] == via
+  end
+
+  def ==(other)
+    other.options == options
+  end
+
+  def self.create(options)
+    edge = new(options)
+    options[:from].create_edge(edge)
+    edge
   end
 
   class DestinationUnknown < RuntimeError

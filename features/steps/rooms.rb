@@ -14,7 +14,7 @@ class Rooms < Spinach::FeatureSteps
   Given 'there is door between the living room and a dining room' do
     @living = Room.new
     @dining = Room.new
-    @edge = Edge.new(from: @living, to: @dining, via: :door, direction: :south)
+    @edge = Edge.create(from: @living, to: @dining, via: :door, direction: :south)
     @game = Game.new(rooms: [ @living, @dining ], edges: [ @edge ])
   end
 

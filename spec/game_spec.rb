@@ -42,8 +42,7 @@ describe Game do
       edge = stub "edge"
 
       Edge.should_receive(:destination)
-        .with(edges:      [edge],
-              from:       subject.current_room,
+        .with(from:       subject.current_room,
               direction:  :north,
               via:        :window)
         .and_return(dining)

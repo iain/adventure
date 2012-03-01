@@ -2,45 +2,45 @@ require 'edge'
 
 describe Edge do
 
+  let(:destination) { stub "Destination" }
+  let(:from) { stub "From", create_edge: true }
+
   describe ".destination" do
 
-    def self.stub(name)
-      let(name) { stub name }
-    end
-
-    stub(:from)
-    stub(:destination)
-
     def find(edge)
-      Edge.destination(edges: [edge],
-                       from:       from,
+      from.stub(:edges) { [ edge ] }
+      Edge.destination(from:       from,
                        direction:  :north,
                        via:        :window)
     end
 
     it "finds the destination" do
-      edge = Edge.new(direction: :north, from: from, to: destination, via: :window)
+      edge = Edge.create(direction: :north, from: from, to: destination, via: :window)
       find(edge).should == destination
     end
 
     context "won't find the destination" do
 
       specify "if direction is wrong" do
-        edge = Edge.new(from: from, to: destination, direction: :east, via: :window)
+        edge = Edge.create(from: from, to: destination, direction: :east, via: :window)
         expect { find(edge) }.to raise_error(Edge::DestinationUnknown)
       end
 
       specify "if the via is wrong" do
-        edge = Edge.new(direction: :north, from: from, to: destination, via: :ladder)
+        edge = Edge.create(direction: :north, from: from, to: destination, via: :ladder)
         expect { find(edge) }.to raise_error(Edge::DestinationUnknown)
       end
 
-      specify "if you're not in the right room" do
-        other = stub "other"
-        edge = Edge.new(direction: :north, from: other, to: destination, via: :window)
-        expect { find(edge) }.to raise_error(Edge::DestinationUnknown)
-      end
+    end
 
+  end
+
+  describe ".create" do
+
+    it "creates a new edge from one room to the other" do
+      options = { from: from, to: destination, direction: :north, via: :elevator }
+      from.should_receive(:create_edge).with(Edge.new(options))
+      Edge.create(options)
     end
 
   end
