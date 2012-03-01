@@ -2,7 +2,7 @@ require 'game'
 
 describe Game do
 
-  let(:room) { stub }
+  let(:room) { stub "a room" }
   subject { Game.new(rooms: [room]) }
 
   it "can be started with rooms" do
@@ -28,6 +28,32 @@ describe Game do
 
     it "is the first room" do
       subject.current_room.should == room
+    end
+
+  end
+
+  describe "#walk_to" do
+
+    class Edge
+    end
+
+    it "changes current room" do
+      dining = stub "dining"
+      edge = stub "edge"
+
+      Edge.should_receive(:destination)
+        .with(edges:      [edge],
+              from:       subject.current_room,
+              direction:  :north,
+              via:        :window)
+        .and_return(dining)
+
+      subject = Game.new(
+        rooms: [room, dining],
+        edges: [edge])
+
+      subject.walk_to(:north, via: :window)
+      subject.current_room.should == dining
     end
 
   end

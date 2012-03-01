@@ -20,7 +20,17 @@ class Game
   end
 
   def current_room
-    rooms.first
+    @current_room ||= rooms.first
+  end
+
+  attr_writer :current_room
+
+  def walk_to(direction, options)
+    self.current_room = Edge.destination(edges:      @options[:edges],
+                                         from:       current_room,
+                                         direction:  direction,
+                                         via:        options[:via])
+
   end
 
 end

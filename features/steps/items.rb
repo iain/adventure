@@ -1,9 +1,4 @@
-require 'room'
-require 'game'
-
 class ItemsSteps < Spinach::FeatureSteps
-  include RSpec::Matchers
-
   feature 'Items'
 
   Given "I'm in a room with a rubber chicken" do
