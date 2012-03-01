@@ -1,6 +1,6 @@
 class Room
 
-  def initialize(options)
+  def initialize(options = {})
     @options = options
   end
 

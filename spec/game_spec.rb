@@ -24,4 +24,12 @@ describe Game do
 
   end
 
+  describe "#current_room" do
+
+    it "is the first room" do
+      subject.current_room.should == room
+    end
+
+  end
+
 end

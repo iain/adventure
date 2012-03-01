@@ -12,11 +12,15 @@ class Game
   end
 
   def look
-    rooms.first.look
+    current_room.look
   end
 
   def pick_up(what)
-    inventory << rooms.first.pick_up(what)
+    inventory << current_room.pick_up(what)
+  end
+
+  def current_room
+    rooms.first
   end
 
 end
