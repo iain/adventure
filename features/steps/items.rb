@@ -2,6 +2,8 @@ require 'room'
 require 'game'
 
 class ItemsSteps < Spinach::FeatureSteps
+  include RSpec::Matchers
+
   feature 'Items'
 
   Given "I'm in a room with a rubber chicken" do
@@ -18,11 +20,11 @@ class ItemsSteps < Spinach::FeatureSteps
   end
 
   When 'I pick up the rubber chicken' do
-    raise 'step not implemented'
+    @game.pick_up :rubber_chicken
   end
 
   Then 'I should have the rubber chicken in my inventory' do
-    raise 'step not implemented'
+    @game.inventory.should include :rubber_chicken
   end
 
 end

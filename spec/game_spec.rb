@@ -14,4 +14,14 @@ describe Game do
     subject.look
   end
 
+  describe "#pick_up" do
+
+    it "picks up items from the room and puts it in the inventory" do
+      room.should_receive(:pick_up) { |item| item }
+      subject.pick_up :rubber_chicken
+      subject.inventory.should == [:rubber_chicken]
+    end
+
+  end
+
 end
